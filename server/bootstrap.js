@@ -8,7 +8,9 @@ module.exports = ({ strapi }) => {
   const generatePlaceholder = async (event) => {
     const { data } = event.params;
     if (!canGeneratePlaceholder(data)) return;
-    data.placeholder = await getService(strapi, 'placeholder').generate(data.url);
+    const {base64, blurhash} = await getService(strapi, 'placeholder').generate(data.url);
+    data.placeholder = base64;
+    data.blurhash = blurhash;
   };
 
   strapi.db.lifecycles.subscribe({
